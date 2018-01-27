@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Leap from 'leapjs';
 import BoneHand from 'leapjs-plugins';
@@ -9,7 +8,7 @@ import * as THREE from 'three';
 
 import './App.css';
 
-const baseBoneRotation = ( new THREE.Quaternion ).setFromEuler( new THREE.Euler( 0, 0, Math.PI / 2 ) );
+const baseBoneRotation = ( new THREE.Quaternion() ).setFromEuler( new THREE.Euler( 0, 0, Math.PI / 2 ) );
 
 function addMesh( meshes ) {
   var geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -21,9 +20,9 @@ function addMesh( meshes ) {
 
 export class LeapViz extends Component {
 
-  static propTypes = {
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired
+  static defaultProps = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired
   };
 
   constructor(props, context) {
@@ -50,11 +49,14 @@ export class LeapViz extends Component {
       });
     };
 
+    this.leapAnimate = this.leapAnimate.bind(this)
+
   }
 
   componentDidMount(){
 
-    Leap.loop({background: true}, this.leapAnimate.bind(this))
+    // Leap.loop({background: true}, this.leapAnimate.bind(this))
+    Leap.loop({background: true}, this.leapAnimate)
     .use('boneHand', {
       scene: this.leapScene,
       opacity: 3,
@@ -86,13 +88,13 @@ export class LeapViz extends Component {
           if ( countBones++ === 0 ){
             continue;
           }
-          var boneMesh = this.state.boneMeshes [ countBones ] || addMesh( this.state.boneMeshes );
+          var boneMesh = this.state.boneMeshes[countBones] || addMesh( this.state.boneMeshes );
           this.updateMesh( bone, boneMesh );
         }
       }
 
       var arm = hand.arm;
-      var armMesh = this.state.armMeshes [ countArms++ ] || addMesh( this.state.armMeshes );
+      var armMesh = this.state.armMeshes[countArms++] || addMesh( this.state.armMeshes );
       this.updateMesh( arm, armMesh );
       armMesh.scale.set( arm.width / 4, arm.width / 2, arm.length );
     }
@@ -103,11 +105,12 @@ export class LeapViz extends Component {
   updateMesh( bone, mesh ) {
 
     mesh.position.fromArray( bone.center() );
-    mesh.setRotationFromMatrix( ( new THREE.Matrix4 ).fromArray( bone.matrix() ) );
+    mesh.setRotationFromMatrix( ( new THREE.Matrix4() ).fromArray( bone.matrix() ) );
     mesh.quaternion.multiply( baseBoneRotation );
     mesh.scale.set( bone.width, bone.width, bone.length );
 
-    this.leapScene.add( mesh );
+    console.log(mesh);
+    // this.leapScene.add( mesh );
   }
 
   render() {
