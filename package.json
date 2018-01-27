@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.1.0"
+    "leapjs": "^0.6.4",
+    "leapjs-plugins": "^0.1.12",
+    "prop-types": "^15.6.0",
+    "react": "15.6.1",
+    "react-dom": "15.6.1",
+    "react-scripts": "1.1.0",
+    "react-three-renderer": "^3.2.3",
+    "three": "^0.89.0"
   },
   "scripts": {
     "start": "react-scripts start",

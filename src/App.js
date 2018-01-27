@@ -21,7 +21,7 @@ function addMesh( meshes ) {
 
 export class LeapViz extends Component {
 
-  LeapViz.propTypes = {
+  static propTypes = {
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired
   };
@@ -41,10 +41,6 @@ export class LeapViz extends Component {
     this.cameraPosition = new THREE.Vector3(0, 0, 5);
 
     this._onAnimate = () => {
-      // we will get this callback every frame
-      // pretend cubeRotation is immutable.
-      // this helps with updates and pure rendering.
-      // React will be sure that the rotation has now updated.
       this.setState({
         cubeRotation: new THREE.Euler(
           this.state.cubeRotation.x + 0.1,
@@ -61,8 +57,8 @@ export class LeapViz extends Component {
     Leap.loop({background: true}, this.leapAnimate.bind(this))
     .use('boneHand', {
       scene: this.leapScene,
-      opacity: 1,
-      arm : true
+      opacity: 3,
+      arm : false
     })
     .connect()
   }
@@ -102,6 +98,16 @@ export class LeapViz extends Component {
     }
     // renderer.render( scene, camera );
 
+  }
+
+  updateMesh( bone, mesh ) {
+
+    mesh.position.fromArray( bone.center() );
+    mesh.setRotationFromMatrix( ( new THREE.Matrix4 ).fromArray( bone.matrix() ) );
+    mesh.quaternion.multiply( baseBoneRotation );
+    mesh.scale.set( bone.width, bone.width, bone.length );
+
+    this.leapScene.add( mesh );
   }
 
   render() {
@@ -148,7 +154,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <
+        <LeapViz width={300} height={150}/>
       </div>
     );
   }
