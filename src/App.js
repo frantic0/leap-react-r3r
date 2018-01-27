@@ -10,14 +10,6 @@ import './App.css';
 
 const baseBoneRotation = ( new THREE.Quaternion() ).setFromEuler( new THREE.Euler( 0, 0, Math.PI / 2 ) );
 
-function addMesh( meshes ) {
-  var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-  var material = new THREE.MeshNormalMaterial();
-  var mesh = new THREE.Mesh( geometry, material );
-  meshes.push( mesh );
-  return mesh;
-}
-
 export class LeapViz extends Component {
 
   static defaultProps = {
@@ -30,7 +22,8 @@ export class LeapViz extends Component {
 
     this.state = {
       hasUserMedia: false,
-      cubeRotation: new THREE.Euler(),
+      cubeRotation1: new THREE.Euler(),
+      cubeRotation2: new THREE.Euler(),
       armMeshes: [],
       boneMeshes: []
     };
@@ -41,32 +34,72 @@ export class LeapViz extends Component {
 
     this._onAnimate = () => {
       this.setState({
-        cubeRotation: new THREE.Euler(
-          this.state.cubeRotation.x + 0.1,
-          this.state.cubeRotation.y + 0.1,
+        cubeRotation1: new THREE.Euler(
+          this.state.cubeRotation1.x + 0.1,
+          this.state.cubeRotation1.y + 0.1,
+          0
+        ),
+        cubeRotation2: new THREE.Euler(
+          this.state.cubeRotation2.x + 0.3,
+          this.state.cubeRotation2.y + 0.05,
           0
         ),
       });
     };
 
-    this.leapAnimate = this.leapAnimate.bind(this)
+    this.setupScene = this.setupScene.bind(this);
+    this.leapAnimate = this.leapAnimate.bind(this);
 
+    console.log('constructor');
   }
 
   componentDidMount(){
 
-    // Leap.loop({background: true}, this.leapAnimate.bind(this))
-    Leap.loop({background: true}, this.leapAnimate)
-    .use('boneHand', {
-      scene: this.leapScene,
-      opacity: 3,
-      arm : false
-    })
+    console.log('componentDidMount');
+    console.log(this.leapScene);
+
+    Leap.loop({background: true}, this.leapAnimate)  // control the meshes assembling on this side
     .connect()
+
+    // Leap.loop({background: false})  // Leap plugin builds a boneHand model
+    // .use('boneHand', {
+    //   scene: this.leapScene,
+    //   opacity: 3,
+    //   arm : false
+    // })
+    // .connect()
   }
 
   componentWillUnmount(){
 
+    Leap.loop.disconnect();
+  }
+
+  setupScene(node){
+
+    // console.log('setupScene');
+    // console.log(node);
+
+    this.leapScene = node;
+  }
+
+  addMesh( meshes ) {
+    var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+    var material = new THREE.MeshNormalMaterial();
+    var mesh = new THREE.Mesh( geometry, material );
+    meshes.push( mesh );
+    return mesh;
+  }
+
+  updateMesh( bone, mesh ) {
+
+    mesh.position.fromArray( bone.center() );
+    mesh.setRotationFromMatrix( ( new THREE.Matrix4() ).fromArray( bone.matrix() ) );
+    mesh.quaternion.multiply( baseBoneRotation );
+    mesh.scale.set( bone.width, bone.width, bone.length );
+
+    // console.log(mesh);
+    this.leapScene.add( mesh );
   }
 
   leapAnimate(frame) {
@@ -88,29 +121,18 @@ export class LeapViz extends Component {
           if ( countBones++ === 0 ){
             continue;
           }
-          var boneMesh = this.state.boneMeshes[countBones] || addMesh( this.state.boneMeshes );
+          var boneMesh = this.state.boneMeshes[countBones] || this.addMesh( this.state.boneMeshes );
           this.updateMesh( bone, boneMesh );
         }
       }
 
       var arm = hand.arm;
-      var armMesh = this.state.armMeshes[countArms++] || addMesh( this.state.armMeshes );
+      var armMesh = this.state.armMeshes[countArms++] || this.addMesh( this.state.armMeshes );
       this.updateMesh( arm, armMesh );
       armMesh.scale.set( arm.width / 4, arm.width / 2, arm.length );
     }
     // renderer.render( scene, camera );
 
-  }
-
-  updateMesh( bone, mesh ) {
-
-    mesh.position.fromArray( bone.center() );
-    mesh.setRotationFromMatrix( ( new THREE.Matrix4() ).fromArray( bone.matrix() ) );
-    mesh.quaternion.multiply( baseBoneRotation );
-    mesh.scale.set( bone.width, bone.width, bone.length );
-
-    console.log(mesh);
-    // this.leapScene.add( mesh );
   }
 
   render() {
@@ -122,7 +144,7 @@ export class LeapViz extends Component {
         width={width}
         height={height}
         onAnimate={this._onAnimate}>
-        <scene ref={node => this.leapScene = node}>
+        <scene ref={node => this.setupScene(node)}>
           <perspectiveCamera
             name="camera"
             fov={75}
@@ -131,13 +153,21 @@ export class LeapViz extends Component {
             far={1000}
             position={this.cameraPosition}
           />
-          <mesh rotation={this.state.cubeRotation}>
+          <mesh rotation={this.state.cubeRotation1}>
             <boxGeometry
               width={1}
               height={1}
               depth={1}
             />
-            <meshBasicMaterial color={0x00ff00} />
+          <meshBasicMaterial color={0xff0000} />
+          </mesh>
+          <mesh rotation={this.state.cubeRotation2}>
+            <boxGeometry
+              width={1}
+              height={1}
+              depth={1}
+            />
+            <meshBasicMaterial color={0x00ffff} />
           </mesh>
         </scene>
       </React3>
