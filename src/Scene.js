@@ -268,83 +268,7 @@ export default class Scene extends Component {
     this.spheres[9].position.y = this.state.thumb2position.y/10;
     this.spheres[9].position.z = this.state.thumb2position.z/10;
 
-          // console.log(this.state.pinky2carpPosition.x);
-
-    //
-    this.spheres_small[0].position.x = this.state.pinky2carpPosition.x/10;
-    this.spheres_small[0].position.y = this.state.pinky2carpPosition.y/10;
-    this.spheres_small[0].position.z = this.state.pinky2carpPosition.z/10;
-
-    this.spheres_small[1].position.x = this.state.pinky2dipPosition.x/10;
-    this.spheres_small[1].position.y = this.state.pinky2dipPosition.y/10;
-    this.spheres_small[1].position.z = this.state.pinky2dipPosition.z/10;
-
-    this.spheres_small[2].position.x = this.state.pinky2mcpPosition.x/10;
-    this.spheres_small[2].position.y = this.state.pinky2mcpPosition.y/10;
-    this.spheres_small[2].position.z = this.state.pinky2mcpPosition.z/10;
-
-    this.spheres_small[3].position.x = this.state.pinky2pipPosition.x/10;
-    this.spheres_small[3].position.y = this.state.pinky2pipPosition.y/10;
-    this.spheres_small[3].position.z = this.state.pinky2pipPosition.z/10;
-
-    this.spheres_small[4].position.x = this.state.ring2carpPosition.x/10;
-    this.spheres_small[4].position.y = this.state.ring2carpPosition.y/10;
-    this.spheres_small[4].position.z = this.state.ring2carpPosition.z/10;
-
-    this.spheres_small[5].position.x = this.state.ring2dipPosition.x/10;
-    this.spheres_small[5].position.y = this.state.ring2dipPosition.y/10;
-    this.spheres_small[5].position.z = this.state.ring2dipPosition.z/10;
-
-    this.spheres_small[6].position.x = this.state.ring2mcpPosition.x/10;
-    this.spheres_small[6].position.y = this.state.ring2mcpPosition.y/10;
-    this.spheres_small[6].position.z = this.state.ring2mcpPosition.z/10;
-
-    this.spheres_small[7].position.x = this.state.ring2pipPosition.x/10;
-    this.spheres_small[7].position.y = this.state.ring2pipPosition.y/10;
-    this.spheres_small[7].position.z = this.state.ring2pipPosition.z/10;
-
-
-
-  // this.spheres_small[1].position.x = this.state.pinky2dipPosition.x/10;
-  // this.spheres_small[1].position.y = this.state.pinky2dipPosition.y/10;
-  // this.spheres_small[1].position.z = this.state.pinky2dipPosition.z/10;
-  // this.spheres_small[2].position.x = this.state.pinky2mcpPosition.x/10;
-  // this.spheres_small[2].position.y = this.state.pinky2mcpPosition.y/10;
-  // this.spheres_small[2].position.z = this.state.pinky2mcpPosition.z/10;
-  // this.spheres_small[3].position.x = this.state.pinky2pipPosition.x/10;
-  // this.spheres_small[3].position.y = this.state.pinky2pipPosition.y/10;
-  // this.spheres_small[3].position.z = this.state.pinky2pipPosition.z/10;
-  // this.spheres_small[4].position.x = this.state.pinky2pipPosition.x/10;
-  // this.spheres_small[4].position.y = this.state.pinky2pipPosition.y/10;
-  // this.spheres_small[4].position.z = this.state.pinky2pipPosition.z/10;
-  // this.spheres_small[5].position.x = this.state.pinky2pipPosition.x/10;
-  // this.spheres_small[5].position.y = this.state.pinky2pipPosition.y/10;
-  // this.spheres_small[5].position.z = this.state.pinky2pipPosition.z/10;
-
-
-
-  // ring2position: new
-  // ring2carpPosition:
-  // ring2dipPosition:
-  // ring2mcpPosition:
-  // ring2pipPosition:
-  // birdie2position: n
-  // birdie2carpPositio
-  // birdie2dipPosition
-  // birdie2mcpPosition
-  // birdie2pipPosition
-  // index2position: ne
-  // index2carpPosition
-  // index2dipPosition:
-  // index2mcpPosition:
-  // index2pipPosition:
-
-  // thumb2position: ne
-  // thumb2carpPosition
-  // thumb2dipPosition:
-  // thumb2mcpPosition:
-  // thumb2pipPosition:
-//
+    // console.log(this.state.pinky2carpPosition.x);
 
 
     this.animateHands(this.leapController.frame())
@@ -357,69 +281,35 @@ export default class Scene extends Component {
     if(frame.hands[0] !== undefined)
     {
       var leapHand = frame.hands[0],
-          leapFingers = frame.fingers;
+        leapFingers = frame.fingers;
           // handObj, fingersObj;
-
-          this.setState((prevState, props) => ({
-            hand1position: new THREE.Vector3(leapHand.palmPosition[0],leapHand.palmPosition[1],leapHand.palmPosition[2]),
-            hand1rotation: new THREE.Vector3(leapHand.palmNormal[0], leapHand.palmNormal[1], leapHand.palmNormal[2]),
-            // hand1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            pinky1position: new THREE.Vector3(leapFingers[0].tipPosition[0], leapFingers[0].tipPosition[1], leapFingers[0].tipPosition[2]),
-            ring1position: new THREE.Vector3(leapFingers[1].tipPosition[0], leapFingers[1].tipPosition[1], leapFingers[1].tipPosition[2]),
-            birdie1position: new THREE.Vector3(leapFingers[2].tipPosition[0], leapFingers[2].tipPosition[1], leapFingers[2].tipPosition[2]),
-            index1position: new THREE.Vector3(leapFingers[3].tipPosition[0], leapFingers[3].tipPosition[1], leapFingers[3].tipPosition[2]),
-            thumb1position: new THREE.Vector3(leapFingers[4].tipPosition[0], leapFingers[4].tipPosition[1], leapFingers[4].tipPosition[2]),
-            // pinky1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            // ring1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            // birdie1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            // index1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            // thumb1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            // torusPosition:  new THREE.Vector3(handObj.position.x,handObj.position.y,handObj.position.z)
-          }));
+      this.setState((prevState, props) => ({
+        hand1position: new THREE.Vector3(leapHand.palmPosition[0],leapHand.palmPosition[1],leapHand.palmPosition[2]),
+        hand1rotation: new THREE.Vector3(leapHand.palmNormal[0], leapHand.palmNormal[1], leapHand.palmNormal[2]),
+        // hand1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
+        pinky1position: new THREE.Vector3(leapFingers[0].tipPosition[0], leapFingers[0].tipPosition[1], leapFingers[0].tipPosition[2]),
+        ring1position: new THREE.Vector3(leapFingers[1].tipPosition[0], leapFingers[1].tipPosition[1], leapFingers[1].tipPosition[2]),
+        birdie1position: new THREE.Vector3(leapFingers[2].tipPosition[0], leapFingers[2].tipPosition[1], leapFingers[2].tipPosition[2]),
+        index1position: new THREE.Vector3(leapFingers[3].tipPosition[0], leapFingers[3].tipPosition[1], leapFingers[3].tipPosition[2]),
+        thumb1position: new THREE.Vector3(leapFingers[4].tipPosition[0], leapFingers[4].tipPosition[1], leapFingers[4].tipPosition[2]),
+      }));
     }
     if(frame.hands[1] !== undefined)
     {
       leapHand = frame.hands[1];
       leapFingers = frame.pointables;
-          // handObj, fingersObj;
+      // console.log(leapFingers[5].dipPosition[0]);
 
-          // console.log(leapFingers[5].dipPosition[0]);
-
-          this.setState((prevState, props) => ({
-            hand2position: new THREE.Vector3(leapHand.palmPosition[0],leapHand.palmPosition[1],leapHand.palmPosition[2]),
-            hand2rotation: new THREE.Vector3(leapHand.palmNormal[0], leapHand.palmNormal[1], leapHand.palmNormal[2]),
-            // hand2rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
-            pinky2position: new THREE.Vector3( leapFingers[5].tipPosition[0], leapFingers[5].tipPosition[1], leapFingers[5].tipPosition[2]),
-            pinky2carpPosition: new THREE.Vector3( leapFingers[5].carpPosition[0], leapFingers[5].carpPosition[1], leapFingers[5].carpPosition[2]),
-            pinky2dipPosition: new THREE.Vector3( leapFingers[5].dipPosition[0], leapFingers[5].dipPosition[1], leapFingers[5].dipPosition[2]),
-            pinky2mcpPosition: new THREE.Vector3( leapFingers[5].mcpPosition[0], leapFingers[5].mcpPosition[1], leapFingers[5].mcpPosition[2]),
-            pinky2pipPosition: new THREE.Vector3( leapFingers[5].pipPosition[0], leapFingers[5].pipPosition[1], leapFingers[5].pipPosition[2]),
-//
-            ring2position: new THREE.Vector3( leapFingers[6].tipPosition[0], leapFingers[6].tipPosition[1], leapFingers[6].tipPosition[2]),
-            ring2carpPosition: new THREE.Vector3( leapFingers[6].carpPosition[0], leapFingers[6].carpPosition[1], leapFingers[6].carpPosition[2]),
-            ring2dipPosition: new THREE.Vector3( leapFingers[6].dipPosition[0],  leapFingers[6].dipPosition[1],  leapFingers[6].dipPosition[2]),
-            ring2mcpPosition: new THREE.Vector3( leapFingers[6].mcpPosition[0],  leapFingers[6].mcpPosition[1],  leapFingers[6].mcpPosition[2]),
-            ring2pipPosition: new THREE.Vector3( leapFingers[6].pipPosition[0],  leapFingers[6].pipPosition[1],  leapFingers[6].pipPosition[2]),
-
-            birdie2position: new THREE.Vector3(leapFingers[7].tipPosition[0], leapFingers[7].tipPosition[1], leapFingers[7].tipPosition[2]),
-            birdie2carpPosition: new THREE.Vector3( leapFingers[5].carpPosition[0], leapFingers[5].carpPosition[1], leapFingers[5].carpPosition[2]),
-            birdie2dipPosition: new THREE.Vector3( leapFingers[5].dipPosition[0], leapFingers[5].dipPosition[1], leapFingers[5].dipPosition[2]),
-            birdie2mcpPosition: new THREE.Vector3( leapFingers[5].mcpPosition[0], leapFingers[5].mcpPosition[1], leapFingers[5].mcpPosition[2]),
-            birdie2pipPosition: new THREE.Vector3( leapFingers[5].pipPosition[0], leapFingers[5].pipPosition[1], leapFingers[5].pipPosition[2]),
-
-            index2position: new THREE.Vector3( leapFingers[8].tipPosition[0], leapFingers[8].tipPosition[1], leapFingers[8].tipPosition[2]),
-            index2carpPosition: new THREE.Vector3( leapFingers[5].carpPosition[0], leapFingers[5].carpPosition[1], leapFingers[5].carpPosition[2]),
-            index2dipPosition: new THREE.Vector3( leapFingers[5].dipPosition[0], leapFingers[5].dipPosition[1], leapFingers[5].dipPosition[2]),
-            index2mcpPosition: new THREE.Vector3( leapFingers[5].mcpPosition[0], leapFingers[5].mcpPosition[1], leapFingers[5].mcpPosition[2]),
-            index2pipPosition: new THREE.Vector3( leapFingers[5].pipPosition[0], leapFingers[5].pipPosition[1], leapFingers[5].pipPosition[2]),
-//
-            thumb2position: new THREE.Vector3( leapFingers[9].tipPosition[0], leapFingers[9].tipPosition[1], leapFingers[9].tipPosition[2]),
-            thumb2carpPosition: new THREE.Vector3( leapFingers[5].carpPosition[0], leapFingers[5].carpPosition[1], leapFingers[5].carpPosition[2]),
-            thumb2dipPosition: new THREE.Vector3( leapFingers[5].dipPosition[0], leapFingers[5].dipPosition[1], leapFingers[5].dipPosition[2]),
-            thumb2mcpPosition: new THREE.Vector3( leapFingers[5].mcpPosition[0], leapFingers[5].mcpPosition[1], leapFingers[5].mcpPosition[2]),
-            thumb2pipPosition: new THREE.Vector3( leapFingers[5].pipPosition[0], leapFingers[5].pipPosition[1], leapFingers[5].pipPosition[2]),
-//
-          }));
+      this.setState((prevState, props) => ({
+        hand2position: new THREE.Vector3(leapHand.palmPosition[0],leapHand.palmPosition[1],leapHand.palmPosition[2]),
+        hand2rotation: new THREE.Vector3(leapHand.palmNormal[0], leapHand.palmNormal[1], leapHand.palmNormal[2]),
+        // hand2rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
+        pinky2position: new THREE.Vector3( leapFingers[5].tipPosition[0], leapFingers[5].tipPosition[1], leapFingers[5].tipPosition[2]),
+        ring2position: new THREE.Vector3( leapFingers[6].tipPosition[0], leapFingers[6].tipPosition[1], leapFingers[6].tipPosition[2]),
+        birdie2position: new THREE.Vector3(leapFingers[7].tipPosition[0], leapFingers[7].tipPosition[1], leapFingers[7].tipPosition[2]),
+        index2position: new THREE.Vector3( leapFingers[8].tipPosition[0], leapFingers[8].tipPosition[1], leapFingers[8].tipPosition[2]),
+        thumb2position: new THREE.Vector3( leapFingers[9].tipPosition[0], leapFingers[9].tipPosition[1], leapFingers[9].tipPosition[2]),
+      }));
     }
 
     this.renderScene();
