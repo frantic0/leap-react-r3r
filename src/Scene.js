@@ -83,16 +83,21 @@ export default class Scene extends Component {
 
     const s_geometry = new THREE.SphereGeometry(1, 50, 40);
     const s_material = new THREE.MeshBasicMaterial({ color: '#00FF00' });
-    this.spheres = [1,2,3,4,5].map(i => new THREE.Mesh(s_geometry, s_material));
+
+    var nFingerList = Array.from({length: 10}, (v, k) => k+1);
+
+    this.spheres = nFingerList.map(i => new THREE.Mesh(s_geometry, s_material));
 
     const t_geometry = new THREE.TorusGeometry(3,1,40,50);
     const t_material = new THREE.MeshBasicMaterial({ color: '#0000FF' });
-    const torus = new THREE.Mesh(t_geometry, t_material);
+    const torus1 = new THREE.Mesh(t_geometry, t_material);
+    const torus2 = new THREE.Mesh(t_geometry, t_material);
 
-    camera.position.z = 20;
+    camera.position.z = 50;
     scene.add(cube);
     this.spheres.map(i => scene.add(i));
-    scene.add(torus);
+    scene.add(torus1);
+    scene.add(torus2);
 
     renderer.setClearColor('#000000');
     renderer.setSize(width, height);
@@ -102,7 +107,8 @@ export default class Scene extends Component {
     this.renderer = renderer;
     this.material = b_material;
     this.cube = cube;
-    this.torus = torus;
+    this.torus1 = torus1;
+    this.torus2 = torus2;
 
     this.mount.appendChild(this.renderer.domElement)
   }
@@ -185,13 +191,22 @@ export default class Scene extends Component {
     this.cube.rotation.x += 0.01
     this.cube.rotation.y += 0.01
 
-    this.torus.position.x = this.state.hand1position.x/10;
-    this.torus.position.y = this.state.hand1position.y/10;
-    this.torus.position.z = this.state.hand1position.z/10;
+    this.torus1.position.x = this.state.hand1position.x/10;
+    this.torus1.position.y = this.state.hand1position.y/10;
+    this.torus1.position.z = this.state.hand1position.z/10;
 
-    this.torus.rotation.x = -this.state.hand1rotation.x + 90;
-    this.torus.rotation.y = this.state.hand1rotation.y + 90;
-    this.torus.rotation.z = this.state.hand1rotation.z  + 90;
+    this.torus1.rotation.z = -this.state.hand1rotation.x + 90;
+    this.torus1.rotation.y = this.state.hand1rotation.y + 90;
+    this.torus1.rotation.x = this.state.hand1rotation.z  + 90;
+
+    this.torus2.position.x = this.state.hand1position.x/10;
+    this.torus2.position.y = this.state.hand1position.y/10;
+    this.torus2.position.z = this.state.hand1position.z/10;
+
+    this.torus2.rotation.z = -this.state.hand1rotation.x + 90;
+    this.torus2.rotation.y = this.state.hand1rotation.y + 90;
+    this.torus2.rotation.x = this.state.hand1rotation.z  + 90;
+
 
     this.spheres[0].position.x = this.state.pinky1position.x/10;
     this.spheres[0].position.y = this.state.pinky1position.y/10;
@@ -208,6 +223,24 @@ export default class Scene extends Component {
     this.spheres[4].position.x = this.state.thumb1position.x/10;
     this.spheres[4].position.y = this.state.thumb1position.y/10;
     this.spheres[4].position.z = this.state.thumb1position.z/10;
+
+
+    this.spheres[5].position.x = this.state.pinky2position.x/10;
+    this.spheres[5].position.y = this.state.pinky2position.y/10;
+    this.spheres[5].position.z = this.state.pinky2position.z/10;
+    this.spheres[6].position.x = this.state.ring2position.x/10;
+    this.spheres[6].position.y = this.state.ring2position.y/10;
+    this.spheres[6].position.z = this.state.ring2position.z/10;
+    this.spheres[7].position.x = this.state.birdie2position.x/10;
+    this.spheres[7].position.y = this.state.birdie2position.y/10;
+    this.spheres[7].position.z = this.state.birdie2position.z/10;
+    this.spheres[8].position.x = this.state.index2position.x/10;
+    this.spheres[8].position.y = this.state.index2position.y/10;
+    this.spheres[8].position.z = this.state.index2position.z/10;
+    this.spheres[9].position.x = this.state.thumb2position.x/10;
+    this.spheres[9].position.y = this.state.thumb2position.y/10;
+    this.spheres[9].position.z = this.state.thumb2position.z/10;
+
 
     this.animateHands(this.leapController.frame())
   }
@@ -236,6 +269,22 @@ export default class Scene extends Component {
             // index1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
             // thumb1rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
             // torusPosition:  new THREE.Vector3(handObj.position.x,handObj.position.y,handObj.position.z)
+          }));
+    }
+    if(frame.hands[1] !== undefined)
+    {
+      var leapHand = frame.hands[1],
+          leapFingers = frame.pointables,
+          handObj, fingersObj;
+
+          this.setState((prevState, props) => ({
+            hand2position: new THREE.Vector3(leapHand.palmPosition[0],leapHand.palmPosition[1],leapHand.palmPosition[2]),
+            hand2rotation: new THREE.Vector3(leapHand.palmNormal[2], leapHand.palmNormal[1], -Math.atan2(leapHand.palmNormal[0], leapHand.palmNormal[1]) + Math.PI),
+            pinky2position: new THREE.Vector3( leapFingers[5].tipPosition[0], leapFingers[5].tipPosition[1], leapFingers[5].tipPosition[2]),
+            ring2position: new THREE.Vector3(  leapFingers[6].tipPosition[0], leapFingers[6].tipPosition[1], leapFingers[6].tipPosition[2]),
+            birdie2position: new THREE.Vector3(leapFingers[7].tipPosition[0], leapFingers[7].tipPosition[1], leapFingers[7].tipPosition[2]),
+            index2position: new THREE.Vector3( leapFingers[8].tipPosition[0], leapFingers[8].tipPosition[1], leapFingers[8].tipPosition[2]),
+            thumb2position: new THREE.Vector3( leapFingers[9].tipPosition[0], leapFingers[9].tipPosition[1], leapFingers[9].tipPosition[2]),
           }));
     }
 
